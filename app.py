@@ -5,6 +5,11 @@ import gymnasium as gym
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.utils.tensorboard import SummaryWriter
+
+
+# tensorboard summary writer
+writer = SummaryWriter('runs/cartpole_experiment')
 
 
 # Q-Network
@@ -143,6 +148,10 @@ if __name__ == "__main__":
             score += reward
             if done:
                 break
+        
+        writer.add_scalar('Score/episode', score, i_episode)
+        writer.add_scalar('Epsilon/episode', eps, i_episode)
+
         scores.append(score)
         eps = max(eps_end, eps_decay*eps)
 
